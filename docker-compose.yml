@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  heisln.car.api:
+    image: ${DOCKER_REGISTRY-}heislncarapi
+    build:
+      context: .
+      dockerfile: Heisln.Car.Api/Dockerfile
