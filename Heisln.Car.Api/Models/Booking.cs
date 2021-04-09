@@ -18,19 +18,19 @@ namespace Heisln.Api.Models
         /// Gets or Sets CarId
         /// </summary>
         [DataMember(Name = "carId")]
-        public string CarId { get; set; }
+        public Guid CarId { get; set; }
 
         /// <summary>
         /// Gets or Sets StartDate
         /// </summary>
         [DataMember(Name = "startDate")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         /// <summary>
         /// Gets or Sets EndDate
         /// </summary>
         [DataMember(Name = "endDate")]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

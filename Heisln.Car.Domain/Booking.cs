@@ -8,18 +8,24 @@ namespace Heisln.Car.Domain
     {
         public readonly Guid Id;
 
-        public readonly Guid CarId;
+        public readonly Car Car;
 
         public readonly DateTime StartDate;
 
         public readonly DateTime EndDate;
 
-        public Booking(Guid id, Guid carId, DateTime startDate, DateTime endDate)
+        private Booking(Guid id, Car car, DateTime startDate, DateTime endDate)
         {
             Id = id;
-            CarId = carId;
+            Car = car;
             StartDate = startDate;
             EndDate = endDate;
+        }
+
+        public static Booking Create(Car car, DateTime startDat, DateTime endDate)
+        {
+            var newId = Guid.NewGuid();
+            return new Booking(newId, Car)
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Heisln.Car.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,6 @@ namespace Heisln.Car.Application
 
         Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter);
 
-
+        Task<Booking> BookCar(Guid id, DateTime startDate, DateTime endDate);
     }
 }

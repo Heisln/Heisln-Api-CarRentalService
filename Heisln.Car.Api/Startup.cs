@@ -1,3 +1,5 @@
+using Heisln.Api.Security;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +33,12 @@ namespace Heisln.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln.Car.Api", Version = "v1" });
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = ApiKeyAuthenticationHandler.SchemeName;
+            })
+            .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(ApiKeyAuthenticationHandler.SchemeName, op => { });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,5 +63,7 @@ namespace Heisln.Api
                 endpoints.MapControllers();
             });
         }
+
+        
     }
 }

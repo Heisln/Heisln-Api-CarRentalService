@@ -6,3 +6,13 @@ services:
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
+  db:
+    image: mysql:8.0.23
+    ports:
+        - 3306:3306
+    environment:
+        MYSQL_ROOT_PASSWORD: qwertzuio
+        MYSQL_USER: test
+        MYSQL_PASSWORD: pass@word1234
+        MYSQL_DATABASE: Heisln.Car.Db
+    restart: always

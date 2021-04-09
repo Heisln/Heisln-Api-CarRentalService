@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Heisln.Car.Domain
 {
-    public partial class User
+    public class User
     {
         public readonly Guid Id;
 
@@ -19,7 +19,7 @@ namespace Heisln.Car.Domain
 
         public readonly DateTime Birthday;
 
-        public User(Guid id, string email, string password, string firstName, string lastName, DateTime birthday)
+        private User(Guid id, string email, string password, string firstName, string lastName, DateTime birthday)
         {
             Id = id;
             Email = email;
@@ -27,6 +27,17 @@ namespace Heisln.Car.Domain
             FirstName = firstName;
             LastName = lastName;
             Birthday = birthday;
+        }
+
+        public bool CheckPassword(string password)
+        {
+            return password == Password;
+        }
+
+        public static User Create(string email, string password, string firstName, string lastName, DateTime birthday)
+        {
+            Guid newId = Guid.NewGuid();
+            return new User(newId, email, password, firstName, lastName, birthday);
         }
     }
 }

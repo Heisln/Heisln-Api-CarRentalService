@@ -42,7 +42,7 @@ namespace Heisln.Api.Models
         /// Gets or Sets Birthday
         /// </summary>
         [DataMember(Name = "birthday")]
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
