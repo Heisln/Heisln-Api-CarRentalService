@@ -31,7 +31,7 @@ namespace Heisln.ApiTest
         }
 
         [Fact]
-        public async Task GetCars_WhenAskCarControllerToGetListOfCars_ThenCarsCountIsGreaterThanZero()
+        public async Task GetCars_WhenGetListOfCars_ThenCarsCountIsGreaterThanZero()
         {
             // When
             var result = await carController.GetCars("");
@@ -43,7 +43,7 @@ namespace Heisln.ApiTest
         }
 
         [Fact]
-        public async Task GetCar_GivenCarId_WhendAskCarControllerToFindSpecificCar_ThenReceiveSpecificCar()
+        public async Task GetCar_GivenCarId_WhenFindCarById_ThenReceiveSpecificCar()
         {
             // Given
             var resultAllCars = (ObjectResult) await carController.GetCars("");
@@ -58,6 +58,14 @@ namespace Heisln.ApiTest
             specificCar.Id.Should().Be(expectedCar.Id, "because they have the same id");
         }
 
+        [Fact]
+        public async Task GetCar_GivenEmptyId_WhenFindCarById_ThenItShouldFail()
+        {
+            var id = Guid.Empty;
+            await Assert.ThrowsAnyAsync<Exception>(() => carController.GetCar(id));
+
+        }
+
         public static readonly IEnumerable<object[]> dateTimes = new List<object[]>
         {
             new object[] 
@@ -69,7 +77,7 @@ namespace Heisln.ApiTest
 
         [Theory]
         [MemberData(nameof(dateTimes))]
-        public async Task BookCar_GivenANewBooking_WhenAskCarControllerToBookSpecificCar_ThenSpecificCarShouldBeBooked(DateTime startDate, DateTime endDate)
+        public async Task BookCar_GivenANewBooking_WhenBookSpecificCar_ThenSpecificCarShouldBeBooked(DateTime startDate, DateTime endDate)
         {
             // Given
             var resultAllCars = (ObjectResult)await carController.GetCars("");
@@ -93,6 +101,13 @@ namespace Heisln.ApiTest
                 StartDate = startDate,
                 EndDate = endDate
             };
+        }
+
+        [Fact]
+        public async Task BookCar_GivenEmptyBooking_WhenBookSpecificCar_ThenItShouldFail()
+        {
+            var booking = new Booking();
+            await Assert.ThrowsAnyAsync<Exception>(() => carController.BookCar(booking));
         }
     }
 }
