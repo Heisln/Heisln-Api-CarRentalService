@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -29,10 +26,10 @@ namespace Heisln.Api.Security
         /// </summary>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.ContainsKey("api_key"))
-            {
-                return AuthenticateResult.Fail("Missing Authorization Header");
-            }
+            //if (!Request.Headers.ContainsKey("api_key"))
+            //{
+            //    return AuthenticateResult.Success("Missing Authorization Header");
+            //}
 
             // do magic here!
 

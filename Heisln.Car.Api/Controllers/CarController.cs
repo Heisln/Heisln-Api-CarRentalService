@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 using Heisln.Api.Security;
 using System.ComponentModel.DataAnnotations;
 using Heisln.Car.Application;
+using Heisln.Car.Api.Models;
 
 namespace Heisln.Api.Controllers
 {
 
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class CarApiController : ControllerBase
+    public class CarController : ControllerBase
     {
-
         ICarOperationHandler carOperationHandler;
 
-        public CarApiController(ICarOperationHandler carOperationHandler)
+        public CarController(ICarOperationHandler carOperationHandler)
         {
             this.carOperationHandler = carOperationHandler;
         }
@@ -35,15 +35,12 @@ namespace Heisln.Api.Controllers
         /// <response code="200">got cars</response>
         /// <response code="401">unauthorized</response>
         /// <response code="422">invalid booking</response>
-        [HttpPost]
-        [Route("/car/book")]
+        [HttpPost("book")]
         [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
         [ValidateModelState]
-        [SwaggerOperation("ApiV1CarBookPost")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<Car.Domain.Car>), description: "got cars")]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
         [SwaggerResponse(statusCode: 422, type: typeof(ErrorObject), description: "invalid booking")]
-        public async virtual Task<IActionResult> ApiV1CarBookPost([FromQuery] Booking booking)
+        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking)
         {
             var result = await carOperationHandler.BookCar(booking.CarId, booking.StartDate, booking.EndDate);
             return new ObjectResult(result);
@@ -55,15 +52,12 @@ namespace Heisln.Api.Controllers
         /// <param name="query"></param>
         /// <response code="200">got cars</response>
         [HttpGet]
-        [Route("/car")]
         [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
         [ValidateModelState]
-        [SwaggerOperation("ApiV1CarGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<CarInfo>), description: "got cars")]
-        public async virtual Task<IActionResult> ApiV1CarGet([FromQuery] string query)
+        public async virtual Task<IActionResult> GetCars(string query)
         {
             var result = await carOperationHandler.GetCarsByFilter(query);
-            return new ObjectResult(result);
+            return new ObjectResult(result.Select(car => car.ToApiInfoModel()));
         }
 
         /// <summary>
@@ -71,16 +65,14 @@ namespace Heisln.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="200">got car details</response>
-        [HttpGet]
-        [Route("/v1/car/{id}")]
+        [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
         [ValidateModelState]
-        [SwaggerOperation("ApiV1CarIdGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Car), description: "got car details")]
-        public async virtual Task<IActionResult> ApiV1CarIdGet([FromRoute][Required] Guid id)
+        public async virtual Task<IActionResult> GetCar(Guid id)
         {
             var result = await carOperationHandler.GetCarById(id);
-            return new ObjectResult(result);
+            return new ObjectResult(result.ToApiModel());
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Heisln.Api.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Brand

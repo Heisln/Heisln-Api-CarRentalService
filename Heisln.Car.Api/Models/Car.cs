@@ -12,13 +12,13 @@ namespace Heisln.Api.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Car : IEquatable<Car>
+    public class Car : IEquatable<Car>
     {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Brand
