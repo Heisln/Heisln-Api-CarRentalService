@@ -13,6 +13,7 @@ using Heisln.Api.Security;
 using System.ComponentModel.DataAnnotations;
 using Heisln.Car.Application;
 using Heisln.Car.Api.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Heisln.Api.Controllers
 {
@@ -36,7 +37,7 @@ namespace Heisln.Api.Controllers
         /// <response code="401">unauthorized</response>
         /// <response code="422">invalid booking</response>
         [HttpPost("book")]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
         [SwaggerResponse(statusCode: 422, type: typeof(ErrorObject), description: "invalid booking")]
@@ -52,7 +53,7 @@ namespace Heisln.Api.Controllers
         /// <param name="query"></param>
         /// <response code="200">got cars</response>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         public async virtual Task<IActionResult> GetCars(string query)
         {
@@ -66,7 +67,7 @@ namespace Heisln.Api.Controllers
         /// <param name="id"></param>
         /// <response code="200">got car details</response>
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Car), description: "got car details")]
         public async virtual Task<IActionResult> GetCar(Guid id)

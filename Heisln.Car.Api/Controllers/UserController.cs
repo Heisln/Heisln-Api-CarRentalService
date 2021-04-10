@@ -2,6 +2,7 @@
 using Heisln.Api.Models;
 using Heisln.Api.Security;
 using Heisln.Car.Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -35,7 +36,7 @@ namespace Heisln.Api.Controllers
         /// <response code="200">registered user</response>
         /// <response code="409">login invalid</response>
         [HttpPost("login")]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(AuthenticationResponse), description: "registered user")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorObject), description: "login invalid")]
@@ -52,7 +53,7 @@ namespace Heisln.Api.Controllers
         /// <response code="200">registered user</response>
         /// <response code="409">registration invalid</response>
         [HttpPost("registration")]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(AuthenticationResponse), description: "registered user")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorObject), description: "registration invalid")]
