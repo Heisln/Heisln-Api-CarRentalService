@@ -12,7 +12,7 @@ cd Heisln-Api
 
 ### Swagger Open Api Documentation
 
-To access the Swagger Doc navigate to `http://localhost:8000/swagger` while running the project
+To access the Swagger Doc navigate to [http://localhost:8000/swagger](http://localhost:8000/swagger) while running the project
 
 ## Frontend Development
 
