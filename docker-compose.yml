@@ -1,12 +1,22 @@
-version: '3.4'
+version: '3.5'
 
 services:
-  heisln.car.api:
+  heisln-api:
+    container_name: heisln-api
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
-  db:
+    ports:
+      - "8000:80"
+    depends_on:
+      - heisln-db
+    restart: always
+    networks: 
+      - heisln-net
+
+  heisln-db:
+    container_name: heisln-db
     image: mysql:8.0.23
     ports:
         - 3306:3306
@@ -16,3 +26,9 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: Heisln.Car.Db
     restart: always
+    networks: 
+      - heisln-net
+
+networks: 
+  heisln-net:
+    external: true

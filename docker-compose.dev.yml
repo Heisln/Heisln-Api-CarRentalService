@@ -1,19 +1,26 @@
 version: '3.4'
 
 services:
-  heisln.car.api:
+  heisln-api:
+    container_name: heisln-api
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
     ports:
-      - "8000:80"
+      - "80"
+      - "443"
     depends_on:
-      - db
+      - heisln-db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
     restart: always
-  db:
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  heisln-db:
+    container_name: heisln-db
     image: mysql:8.0.23
     ports:
         - 3306:3306
