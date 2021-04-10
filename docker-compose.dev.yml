@@ -1,26 +1,21 @@
 version: '3.4'
 
 services:
-  heisln-api:
-    container_name: heisln-api
+  heisln-api-dev:
+    container_name: heisln-api-dev
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
     ports:
-      - "80"
-      - "443"
+      - 8000:80
     depends_on:
-      - heisln-db
+      - heisln-db-dev
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
     restart: always
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  heisln-db:
-    container_name: heisln-db
+  heisln-db-dev:
+    container_name: heisln-db-dev
     image: mysql:8.0.23
     ports:
         - 3306:3306
@@ -30,16 +25,4 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: NapDb
     restart: always
-  adminer:
-    image: adminer
-    depends_on:
-        - db
-    environment:
-        ADMINER_DEFAULT_DB_DRIVER: mysql
-        ADMINER_DEFAULT_DB_HOST: db
-        ADMINER_DEFAULT_DB_NAME: NapDb
-        ADMINER_DESIGN: flat
-        ADMINER_PLUGINS: tables-filter tinymce
-    ports:
-        - 8001:8080
 
