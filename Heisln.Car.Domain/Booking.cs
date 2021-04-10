@@ -22,10 +22,12 @@ namespace Heisln.Car.Domain
             EndDate = endDate;
         }
 
-        public static Booking Create(Car car, DateTime startDat, DateTime endDate)
+        public static Booking Create(Car car, DateTime startDate, DateTime endDate)
         {
             var newId = Guid.NewGuid();
-            return new Booking(newId, Car)
+            return new Booking(newId, car, startDate, endDate);
         }
+
+        public Booking() { }
     }
 }

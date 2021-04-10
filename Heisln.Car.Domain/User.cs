@@ -11,7 +11,7 @@ namespace Heisln.Car.Domain
 
         public readonly string Email;
 
-        private string Password;
+        public string Password { get; private set; }
 
         public readonly string FirstName;
 
@@ -19,7 +19,7 @@ namespace Heisln.Car.Domain
 
         public readonly DateTime Birthday;
 
-        private User(Guid id, string email, string password, string firstName, string lastName, DateTime birthday)
+        public User(Guid id, string email, string password, string firstName, string lastName, DateTime birthday)
         {
             Id = id;
             Email = email;

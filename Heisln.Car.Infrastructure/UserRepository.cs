@@ -22,7 +22,7 @@ namespace Heisln.Car.Infrastructure
 
         public async Task<User> GetAsync(string email, string password)
         {
-            var user = await dbContext.Users.SingleAsync(user => user.Email == email && user.CheckPassword(password));
+            var user = await dbContext.Users.SingleAsync(user => user.Email == email && user.Password == password);
             return user;
         }
 

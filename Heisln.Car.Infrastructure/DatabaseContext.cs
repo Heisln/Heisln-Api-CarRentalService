@@ -40,7 +40,33 @@ namespace Heisln.Car.Infrastructure
             modelBuilder.Entity<User>()
                 .Property(u => u.Email);
             modelBuilder.Entity<User>()
+                .Property(u => u.Birthday);
+            modelBuilder.Entity<User>()
                 .Property("Password");
+
+            modelBuilder.Entity<Booking>()
+                .HasKey(a => a.Id);
+            modelBuilder.Entity<Booking>()
+                .HasOne(a => a.Car)
+                .WithMany();
+            modelBuilder.Entity<Booking>()
+                .Property(a => a.StartDate);
+            modelBuilder.Entity<Booking>()
+                .Property(a => a.EndDate);
+
+            modelBuilder.Entity<Domain.Car>()
+               .HasKey(a => a.Id);
+            modelBuilder.Entity<Domain.Car>()
+                .Property(c => c.Brand);
+            modelBuilder.Entity<Domain.Car>()
+                .Property(a => a.Consumption);
+            modelBuilder.Entity<Domain.Car>()
+                .Property(a => a.Horsepower);
+            modelBuilder.Entity<Domain.Car>()
+                .Property(a => a.Name);
+            modelBuilder.Entity<Domain.Car>()
+                .Property(a => a.Priceperday);
+
         }
     }
 }

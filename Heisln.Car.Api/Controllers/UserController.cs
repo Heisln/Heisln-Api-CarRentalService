@@ -36,13 +36,12 @@ namespace Heisln.Api.Controllers
         /// <response code="200">registered user</response>
         /// <response code="409">login invalid</response>
         [HttpPost("login")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(AuthenticationResponse), description: "registered user")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorObject), description: "login invalid")]
-        public async virtual Task<IActionResult> UserLogin(string userEmail, string password)
+        public async virtual Task<IActionResult> UserLogin(AuthenticationRequest request)
         {
-            var result = await userOperationHandler.Login(userEmail, password);
+            var result = await userOperationHandler.Login(request.Email, request.Password);
             return new ObjectResult(new AuthenticationResponse { Token = result });
         }
 
@@ -53,7 +52,6 @@ namespace Heisln.Api.Controllers
         /// <response code="200">registered user</response>
         /// <response code="409">registration invalid</response>
         [HttpPost("registration")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(AuthenticationResponse), description: "registered user")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorObject), description: "registration invalid")]
