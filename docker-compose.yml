@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Heisln.Car.Api/Dockerfile
   db:
     image: mysql:8.0.23
     ports:

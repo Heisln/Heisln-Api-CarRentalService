@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Heisln.Car.Api/Dockerfile
     ports:
       - "8000:80"
     depends_on:
@@ -21,7 +21,7 @@ services:
         MYSQL_ROOT_PASSWORD: qwertzuio
         MYSQL_USER: test
         MYSQL_PASSWORD: pass@word1234
-        MYSQL_DATABASE: NapDb
+        MYSQL_DATABASE: Heisln.Car.Db
     restart: always
   adminer:
     image: adminer
@@ -30,7 +30,7 @@ services:
     environment:
         ADMINER_DEFAULT_DB_DRIVER: mysql
         ADMINER_DEFAULT_DB_HOST: db
-        ADMINER_DEFAULT_DB_NAME: NapDb
+        ADMINER_DEFAULT_DB_NAME: Heisln.Car.Db
         ADMINER_DESIGN: flat
         ADMINER_PLUGINS: tables-filter tinymce
     ports:
