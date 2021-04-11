@@ -32,7 +32,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          link: ${{ GITHUB_WORKSPACE }}/Heisln.Car.Api/Dockerfile
+          link: ./Heisln.Car.Api/Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/heisln-api:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
