@@ -39,7 +39,7 @@ namespace Heisln.ApiTest
             var cars = ((IEnumerable<CarInfo>) objectResult.Value).ToList();
 
             // Then
-            cars.Should().HaveCountGreaterOrEqualTo(0);
+            cars.Should().HaveCountGreaterOrEqualTo(0, "because the database stores a set of cars!");
         }
 
         [Fact]
@@ -55,13 +55,19 @@ namespace Heisln.ApiTest
             var specificCar = (Heisln.Api.Models.Car) resultSpecificCar.Value;
 
             // Then
-            specificCar.Id.Should().Be(expectedCar.Id, "because they have the same id");
+            specificCar.Id.Should().Be(expectedCar.Id, "because they have the same id!");
         }
 
-        [Fact]
-        public async Task GetCar_GivenEmptyId_WhenFindCarById_ThenItShouldFail()
+        public static readonly IEnumerable<object[]> invalidId = new List<object[]>
         {
-            var id = Guid.Empty;
+            new object[] { Guid.Empty },
+            new object[] { Guid.NewGuid() }
+        };
+
+        [Theory]
+        [MemberData(nameof(invalidId))]
+        public async Task GetCar_GivenInvalidId_WhenFindCarById_ThenItShouldFail(Guid id)
+        {
             await Assert.ThrowsAnyAsync<Exception>(() => carController.GetCar(id));
 
         }
@@ -103,10 +109,17 @@ namespace Heisln.ApiTest
             };
         }
 
-        [Fact]
-        public async Task BookCar_GivenEmptyBooking_WhenBookSpecificCar_ThenItShouldFail()
+        public static readonly IEnumerable<object[]> invalidBookingInformation = new List<object[]>
         {
-            var booking = new Booking();
+            new object[] { Guid.Empty, new DateTime(2001, 1, 1), new DateTime(2001, 1, 12) },
+            new object[] { Guid.NewGuid(), new DateTime(2012, 1, 1), new DateTime(2020, 1, 12) }
+        };
+
+        [Theory]
+        [MemberData(nameof(invalidBookingInformation))]
+        public async Task BookCar_GivenInvalidBooking_WhenBookSpecificCar_ThenItShouldFail(Guid id, DateTime startDate, DateTime endDate)
+        {
+            var booking = CreateBooking(id, startDate, endDate);
             await Assert.ThrowsAnyAsync<Exception>(() => carController.BookCar(booking));
         }
     }
