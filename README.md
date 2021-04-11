@@ -1,4 +1,4 @@
-![dockerhub](https://github.com/Heisln/Heisln-Frontend/actions/workflows/container.yml/badge.svg)
+![dockerhub](https://github.com/Heisln/Heisln-Api/actions/workflows/container.yml/badge.svg)
 
 # Dockerized .NET Core Heisln Api
 
