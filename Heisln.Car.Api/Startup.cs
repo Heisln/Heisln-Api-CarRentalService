@@ -62,8 +62,7 @@ namespace Heisln.Api
                                     Id = "Bearer"
                                 }
                             },
-                            new string[] {}
-
+                            new string[] { }
                     }
                 });
             });
