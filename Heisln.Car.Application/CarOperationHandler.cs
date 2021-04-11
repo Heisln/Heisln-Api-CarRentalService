@@ -13,17 +13,24 @@ namespace Heisln.Car.Application
         readonly ICarRepository carRepository;
         readonly IBookingRepository bookingRepository;
         readonly IUserRepository userRepository;
+        private readonly ICurrencyConverterHandler _currencyConverterHandler;
 
 
-        public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository, IUserRepository userRepository)
+        public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository, IUserRepository userRepository, ICurrencyConverterHandler currencyConverterHandler)
         {
             this.carRepository = carRepository;
             this.bookingRepository = bookingRepository;
             this.userRepository = userRepository;
+            _currencyConverterHandler = currencyConverterHandler;
         }
 
         public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
         {
+            //todo test currencyconverter
+            var sourceCurrency = "USD";
+            var targetCurrency = "JPY";
+            var list = new List<int> { 1, 2, 3 };
+            var converted = _currencyConverterHandler.Convert(sourceCurrency, targetCurrency, list);
             var car = await carRepository.GetAsync(carId);
             var user = await userRepository.GetAsync(userId);
             var booking = Booking.Create(car, user, startDate, endDate);
