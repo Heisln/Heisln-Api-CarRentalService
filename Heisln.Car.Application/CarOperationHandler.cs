@@ -12,18 +12,21 @@ namespace Heisln.Car.Application
     {
         readonly ICarRepository carRepository;
         readonly IBookingRepository bookingRepository;
+        readonly IUserRepository userRepository;
 
 
-        public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository)
+        public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository, IUserRepository userRepository)
         {
             this.carRepository = carRepository;
             this.bookingRepository = bookingRepository;
+            this.userRepository = userRepository;
         }
 
-        public async Task<Booking> BookCar(Guid carId, DateTime startDate, DateTime endDate)
+        public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
         {
             var car = await carRepository.GetAsync(carId);
-            var booking = Booking.Create(car, startDate, endDate);
+            var user = await userRepository.GetAsync(userId);
+            var booking = Booking.Create(car, user, startDate, endDate);
             bookingRepository.Add(booking);
             await bookingRepository.SaveAsync();
             return booking;

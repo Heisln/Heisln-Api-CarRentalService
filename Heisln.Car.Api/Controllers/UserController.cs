@@ -23,10 +23,12 @@ namespace Heisln.Api.Controllers
     public class UserController : ControllerBase
     {
         IUserOperationHandler userOperationHandler;
+        IBookingOperationHandler bookingOperationHandler;
 
-        public UserController(IUserOperationHandler userOperationHandler)
+        public UserController(IUserOperationHandler userOperationHandler, IBookingOperationHandler bookingOperationHandler)
         {
             this.userOperationHandler = userOperationHandler;
+            this.bookingOperationHandler = bookingOperationHandler;
         }
 
         /// <summary>
@@ -59,6 +61,24 @@ namespace Heisln.Api.Controllers
         {
             var result = await userOperationHandler.Register(newUser.Email, newUser.Password, newUser.FirstName, newUser.LastName, newUser.Birthday);
             return new ObjectResult(new AuthenticationResponse() { Token = result } );
+        }
+
+        [HttpGet("{userId}/bookings/{bookingId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ValidateModelState]
+        public async virtual Task<IActionResult> GetBooking(Guid userId, Guid bookingId, string? currency)
+        {
+            var result = await bookingOperationHandler.GetBoookingFromUser(userId, bookingId, currency);
+            return new ObjectResult(result); 
+        }
+
+        [HttpGet("{userId}/bookings")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ValidateModelState]
+        public async virtual Task<IActionResult> GetBookings(Guid userId, string? currency)
+        {
+            var result = await bookingOperationHandler.GetBookingsByUser(userId, currency;
+            return new ObjectResult(result);
         }
     }
 }

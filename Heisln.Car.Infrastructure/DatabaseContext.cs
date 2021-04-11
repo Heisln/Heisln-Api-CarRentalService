@@ -50,6 +50,9 @@ namespace Heisln.Car.Infrastructure
                 .HasOne(a => a.Car)
                 .WithMany();
             modelBuilder.Entity<Booking>()
+                .HasOne(a => a.User)
+                .WithMany();
+            modelBuilder.Entity<Booking>()
                 .Property(a => a.StartDate);
             modelBuilder.Entity<Booking>()
                 .Property(a => a.EndDate);

@@ -55,10 +55,10 @@ namespace Heisln.Api.Controllers
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetCars(string query)
+        public async virtual Task<IActionResult> GetCars(string query, string? currency)
         {
             var result = await carOperationHandler.GetCarsByFilter(query);
-            return new ObjectResult(result.Select(car => car.ToApiInfoModel()));
+            return new ObjectResult(result.Select(car => car.ToApiInfoModel(), currency));
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace Heisln.Api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Car), description: "got car details")]
-        public async virtual Task<IActionResult> GetCar(Guid id)
+        public async virtual Task<IActionResult> GetCar(Guid id, string? currency)
         {
-            var result = await carOperationHandler.GetCarById(id);
+            var result = await carOperationHandler.GetCarById(id, currency);
             return new ObjectResult(result.ToApiModel());
         }
     }

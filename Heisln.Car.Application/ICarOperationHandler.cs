@@ -9,9 +9,9 @@ namespace Heisln.Car.Application
 {
     public interface ICarOperationHandler
     {
-        Task<Domain.Car> GetCarById(Guid carId);
+        Task<Domain.Car> GetCarById(Guid carId, string? currency);
 
-        Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter);
+        Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter, string? currency);
 
         Task<Booking> BookCar(Guid id, DateTime startDate, DateTime endDate);
     }
