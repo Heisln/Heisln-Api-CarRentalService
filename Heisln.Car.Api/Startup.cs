@@ -96,6 +96,7 @@ namespace Heisln.Api
             services.AddScoped<ICarOperationHandler, CarOperationHandler>();
             services.AddScoped<IUserOperationHandler, UserOperationHandler>();
             services.AddScoped<IBookingOperationHandler, BookingOperationHandler>();
+            services.AddScoped<ICurrencyConverterHandler, CurrencyConverterHandler>();
 
             //Configure Database
             services.AddDbContext<DatabaseContext>(options =>
