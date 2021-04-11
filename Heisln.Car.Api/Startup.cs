@@ -71,6 +71,7 @@ namespace Heisln.Api
             //DI
             services.AddScoped<ICarOperationHandler, CarOperationHandler>();
             services.AddScoped<IUserOperationHandler, UserOperationHandler>();
+            services.AddScoped<IBookingOperationHandler, BookingOperationHandler>();
 
             //Configure Database
             services.AddDbContext<DatabaseContext>(options =>
@@ -139,8 +140,14 @@ namespace Heisln.Api
                         userRepository.Add(userB);
                         userRepository.SaveAsync().Wait();
 
-                        var bookingRepository = Car.Domain.Booking.Create()
+                        var bookingA = Car.Domain.Booking.Create(carA, userA, DateTime.Now, DateTime.Now);
+                        var bookingB = Car.Domain.Booking.Create(carB, userA, DateTime.Now, DateTime.Now);
 
+                        var bookingRepository = serviceScope.ServiceProvider.GetRequiredService<IBookingRepository>();
+                        bookingRepository.Add(bookingA);
+                        bookingRepository.Add(bookingB);
+
+                        bookingRepository.SaveAsync().Wait();
                     }
                     catch (Exception e)
                     {
