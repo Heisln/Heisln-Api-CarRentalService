@@ -12,6 +12,6 @@ namespace Heisln.Car.Application
 
         Task<IEnumerable<Domain.Booking>> GetBookingsByUser(Guid userId, string? currency);
 
-        Task<Domain.Booking> GetBoookingFromUser(Guid userId, Guid bookingI, string? currency);
+        Task<Domain.Booking> GetBookingFromUser(Guid userId, Guid bookingI, string? currency);
     }
 }

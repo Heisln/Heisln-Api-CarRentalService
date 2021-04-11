@@ -19,14 +19,20 @@ namespace Heisln.Car.Application
             this.userRepository = userRepository;
         }
 
-        public async Task<Booking> GetBookingById(Guid bookingId)
+        public async Task<Booking> GetBookingById(Guid bookingId, string currency)
         {
             return await bookingRepository.GetAsync(bookingId);
         }
 
-        public async Task<IEnumerable<Booking>> GetBookingsByUser(Guid userId)
+        public async Task<IEnumerable<Booking>> GetBookingsByUser(Guid userId, string currency)
         {
             return await bookingRepository.GetBookingsByUser(userId);
+        }
+
+        public async Task<Booking> GetBookingFromUser(Guid userId, Guid bookingId, string currency)
+        {
+            //TODO Validate
+            return await bookingRepository.GetAsync(bookingId);
         }
     }
 }

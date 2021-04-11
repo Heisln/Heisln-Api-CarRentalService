@@ -139,6 +139,8 @@ namespace Heisln.Api
                         userRepository.Add(userB);
                         userRepository.SaveAsync().Wait();
 
+                        var bookingRepository = Car.Domain.Booking.Create()
+
                     }
                     catch (Exception e)
                     {

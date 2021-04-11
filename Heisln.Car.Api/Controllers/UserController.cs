@@ -68,7 +68,7 @@ namespace Heisln.Api.Controllers
         [ValidateModelState]
         public async virtual Task<IActionResult> GetBooking(Guid userId, Guid bookingId, string? currency)
         {
-            var result = await bookingOperationHandler.GetBoookingFromUser(userId, bookingId, currency);
+            var result = await bookingOperationHandler.GetBookingFromUser(userId, bookingId, currency);
             return new ObjectResult(result); 
         }
 
@@ -77,7 +77,7 @@ namespace Heisln.Api.Controllers
         [ValidateModelState]
         public async virtual Task<IActionResult> GetBookings(Guid userId, string? currency)
         {
-            var result = await bookingOperationHandler.GetBookingsByUser(userId, currency;
+            var result = await bookingOperationHandler.GetBookingsByUser(userId, currency);
             return new ObjectResult(result);
         }
     }

@@ -13,6 +13,6 @@ namespace Heisln.Car.Application
 
         Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter, string? currency);
 
-        Task<Booking> BookCar(Guid id, DateTime startDate, DateTime endDate);
+        Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate);
     }
 }

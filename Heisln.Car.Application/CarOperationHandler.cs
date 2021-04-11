@@ -32,13 +32,13 @@ namespace Heisln.Car.Application
             return booking;
         }
 
-        public async Task<Domain.Car> GetCarById(Guid carId)
+        public async Task<Domain.Car> GetCarById(Guid carId, string currency)
         {
             var car = await carRepository.GetAsync(carId);
             return car;
         }
 
-        public async Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter)
+        public async Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter, string currency)
         {
             var cars = await carRepository.GetAllAsync();
             return cars;

@@ -41,9 +41,9 @@ namespace Heisln.Api.Controllers
         [ValidateModelState]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
         [SwaggerResponse(statusCode: 422, type: typeof(ErrorObject), description: "invalid booking")]
-        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking)
+        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking, [FromHeader]Guid userId)
         {
-            var result = await carOperationHandler.BookCar(booking.CarId, booking.StartDate, booking.EndDate);
+            var result = await carOperationHandler.BookCar(booking.CarId, userId, booking.StartDate, booking.EndDate);
             return new ObjectResult(result);
         }
 
@@ -57,8 +57,8 @@ namespace Heisln.Api.Controllers
         [ValidateModelState]
         public async virtual Task<IActionResult> GetCars(string query, string? currency)
         {
-            var result = await carOperationHandler.GetCarsByFilter(query);
-            return new ObjectResult(result.Select(car => car.ToApiInfoModel(), currency));
+            var result = await carOperationHandler.GetCarsByFilter(query, currency);
+            return new ObjectResult(result.Select(car => car.ToApiInfoModel()));
         }
 
         /// <summary>
