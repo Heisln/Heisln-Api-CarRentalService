@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}heislncarapi
     build:
       context: .
-      dockerfile: Heisln.Car.Api/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8000:80"
     depends_on:
