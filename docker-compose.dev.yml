@@ -13,6 +13,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     restart: always
+    networks:
+      - heisln-net
   db:
     image: mysql:8.0.23
     ports:
@@ -23,6 +25,8 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: Heisln.Car.Db
     restart: always
+    networks:
+      - heisln-net
   adminer:
     image: adminer
     depends_on:
@@ -35,4 +39,17 @@ services:
         ADMINER_PLUGINS: tables-filter tinymce
     ports:
         - 8001:8080
+    networks:
+      - heisln-net
+  heisln-currency-converter:
+    ports:
+      - 9000:80
+    image: 'deitsch/heisln-currency-converter'
+    container_name: 'heisln-currency-converter'
+    networks:
+      - heisln-net
+  
+networks:
+  heisln-net:
+    external: true
 
