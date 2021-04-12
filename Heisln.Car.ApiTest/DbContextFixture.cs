@@ -14,9 +14,9 @@ namespace Heisln.ApiTest
         readonly string connectionString = "DataSource=:memory:";
         readonly SqliteConnection connection;
         public DatabaseContext DatabaseContext { get; }
-        public Car.Domain.Car[] Cars { get; init; }
-        public Car.Domain.User[] Users { get; init; }
-        public Car.Domain.Booking[] Bookings { get; init; }
+        readonly Car.Domain.Car[] Cars;
+        readonly Car.Domain.User[] Users;
+        readonly Car.Domain.Booking[] Bookings;
 
         public DbContextFixture()
         {
