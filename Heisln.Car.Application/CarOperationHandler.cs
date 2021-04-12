@@ -3,6 +3,7 @@ using Heisln.Car.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Heisln.Car.Application
         readonly IBookingRepository bookingRepository;
         readonly IUserRepository userRepository;
         readonly ICurrencyConverterHandler currencyConverterHandler;
+        const string emailClaim = "email";
 
 
         public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository, IUserRepository userRepository, ICurrencyConverterHandler currencyConverterHandler)
@@ -24,10 +26,15 @@ namespace Heisln.Car.Application
             this.currencyConverterHandler = currencyConverterHandler;
         }
 
-        public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
+        public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate, string bearer)
         {
             var car = await carRepository.GetAsync(carId);
             var user = await userRepository.GetAsync(userId);
+
+            var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
+            if (user.Email != claim)
+                throw new InvalidCredentialException("Not authorized!");
+
             var booking = Booking.Create(car, user, startDate, endDate);
             bookingRepository.Add(booking);
             await bookingRepository.SaveAsync();
@@ -53,9 +60,14 @@ namespace Heisln.Car.Application
             return cars;
         }
 
-        public async Task ReturnCar(Guid bookingId)
+        public async Task ReturnCar(Guid bookingId, string bearer)
         {
             var booking = await bookingRepository.GetAsync(bookingId);
+
+            var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
+            if (booking.User.Email != claim)
+                throw new InvalidCredentialException("Not authorized!");
+
             bookingRepository.Remove(booking);
             await bookingRepository.SaveAsync();
         }

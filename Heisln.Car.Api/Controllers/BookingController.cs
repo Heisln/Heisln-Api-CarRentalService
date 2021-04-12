@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using System.Web.Http.Cors;
 
 namespace Heisln.Car.Api.Controllers
 {
@@ -29,9 +29,9 @@ namespace Heisln.Car.Api.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<Booking> GetBooking(Guid id, string currency = "USD")
+        public async Task<Booking> GetBooking(Guid id, Currency currency = Currency.USD)
         {
-            var result = await bookingOperationHandler.GetBookingById(id, currency);
+            var result = await bookingOperationHandler.GetBookingById(id, currency.ToString());
             return result.ToApiModel();
         }
     }

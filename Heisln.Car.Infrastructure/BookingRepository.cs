@@ -27,7 +27,10 @@ namespace Heisln.Car.Infrastructure
 
         public async Task<Booking> GetAsync(Guid id)
         {
-            return await dbContext.Bookings.SingleAsync(booking => booking.Id == id);
+            return await dbContext.Bookings
+                .Include(booking => booking.User)
+                .Include(booking => booking.Car)
+                .SingleAsync(booking => booking.Id == id);
         }
 
         public async Task<IEnumerable<Booking>> GetBookingsByUser(Guid userId)
