@@ -1,4 +1,6 @@
 ﻿using Heisln.Api.Attributes;
+using Heisln.Api.Models;
+using Heisln.Car.Api.Models;
 using Heisln.Car.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -27,12 +29,10 @@ namespace Heisln.Car.Api.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Booking), description: "got car details")]
-        public async virtual Task<IActionResult> GetBooking(Guid id, string? currency)
+        public async Task<Booking> GetBooking(Guid id, string currency = "USD")
         {
             var result = await bookingOperationHandler.GetBookingById(id, currency);
-            return new ObjectResult(result);
+            return result.ToApiModel();
         }
     }
 }

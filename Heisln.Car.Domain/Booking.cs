@@ -20,6 +20,7 @@ namespace Heisln.Car.Domain
         {
             Id = id;
             Car = car;
+            User = user;
             StartDate = startDate;
             EndDate = endDate;
         }

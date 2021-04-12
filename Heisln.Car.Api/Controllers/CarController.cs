@@ -29,51 +29,35 @@ namespace Heisln.Api.Controllers
             this.carOperationHandler = carOperationHandler;
         }
 
-        /// <summary>
-        /// book a car
-        /// </summary>
-        /// <param name="booking">startDate has to be before endDate</param>
-        /// <response code="200">got cars</response>
-        /// <response code="401">unauthorized</response>
-        /// <response code="422">invalid booking</response>
         [HttpPost("book")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ValidateModelState]
-        [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
-        [SwaggerResponse(statusCode: 422, type: typeof(ErrorObject), description: "invalid booking")]
-        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking, [FromHeader]Guid userId)
+        public async Task<Booking> BookCar([FromBody] Booking booking)
         {
-            var result = await carOperationHandler.BookCar(booking.CarId, userId, booking.StartDate, booking.EndDate);
-            return new ObjectResult(result);
+            var result = await carOperationHandler.BookCar(booking.CarId.Value, booking.UserId, booking.StartDate, booking.EndDate);
+            return result.ToApiModel();
         }
 
-        /// <summary>
-        /// get all cars
-        /// </summary>
-        /// <param name="query"></param>
-        /// <response code="200">got cars</response>
+        [HttpPost("return")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task ReturnCar(Guid bookingId)
+        {
+            await carOperationHandler.ReturnCar(bookingId);
+        }
+
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ValidateModelState]
-        public async virtual Task<IActionResult> GetCars(string query, string? currency)
+        public async Task<IEnumerable<CarInfo>> GetCars(string query, string currency = "USD")
         {
             var result = await carOperationHandler.GetCarsByFilter(query, currency);
-            return new ObjectResult(result.Select(car => car.ToApiInfoModel()));
+            return result.Select(car => car.ToApiInfoModel());
         }
 
-        /// <summary>
-        /// get car by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <response code="200">got car details</response>
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Car), description: "got car details")]
-        public async virtual Task<IActionResult> GetCar(Guid id, string? currency)
+        public async Task<Api.Models.Car> GetCar(Guid id, string currency = "USD")
         {
             var result = await carOperationHandler.GetCarById(id, currency);
-            return new ObjectResult(result.ToApiModel());
+            return result.ToApiModel();
         }
     }
 }

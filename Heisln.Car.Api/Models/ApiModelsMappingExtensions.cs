@@ -27,5 +27,15 @@ namespace Heisln.Car.Api.Models
                 Horsepower = car.Horsepower,
                 Consumption = car.Consumption
             };
+
+        public static Heisln.Api.Models.Booking ToApiModel(this Domain.Booking booking)
+            => new Heisln.Api.Models.Booking
+            {
+                Id = booking.Id,
+                Car = booking.Car.ToApiInfoModel(),
+                UserId = booking.User.Id,
+                StartDate = booking.StartDate,
+                EndDate = booking.EndDate
+            };
     }
 }

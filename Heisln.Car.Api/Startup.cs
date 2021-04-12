@@ -62,8 +62,7 @@ namespace Heisln.Api
                                     Id = "Bearer"
                                 }
                             },
-                            new string[] {}
-
+                            new string[] { }
                     }
                 });
             });
@@ -97,6 +96,7 @@ namespace Heisln.Api
             services.AddScoped<ICarOperationHandler, CarOperationHandler>();
             services.AddScoped<IUserOperationHandler, UserOperationHandler>();
             services.AddScoped<IBookingOperationHandler, BookingOperationHandler>();
+            services.AddScoped<ICurrencyConverterHandler, CurrencyConverterHandler>();
 
             //Configure Database
             services.AddDbContext<DatabaseContext>(options =>
@@ -133,7 +133,7 @@ namespace Heisln.Api
             {
                 var databaseContext = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
-                if (env.IsDevelopment())
+                if (true)
                 {
                     var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
 
@@ -158,7 +158,7 @@ namespace Heisln.Api
                         carRepository.SaveAsync().Wait();
 
                         var userA = new Car.Domain.User(Guid.NewGuid(), "mail@mail.test", "pwd", "Max", "Mustermann", DateTime.Today);
-                        var userB = new Car.Domain.User(Guid.NewGuid(), "mail@mail.test", "pwd", "Sabine", "Sicher", DateTime.Today);
+                        var userB = new Car.Domain.User(Guid.NewGuid(), "mail1@mail.test", "pwd", "Sabine", "Sicher", DateTime.Today);
 
                         var userRepository = serviceScope.ServiceProvider.GetRequiredService<IUserRepository>();
                         userRepository.Add(userA);
