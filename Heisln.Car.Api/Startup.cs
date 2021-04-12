@@ -36,6 +36,14 @@ namespace Heisln.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -102,15 +110,6 @@ namespace Heisln.Api
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseMySQL(Configuration.GetSection("Database")["ConnectionString"]);
-            });
-
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    });
             });
         }
 
