@@ -41,7 +41,7 @@ namespace Heisln.Api.Controllers
         public async Task<AuthenticationResponse> RegistrateUser([FromBody] User newUser)
         {
             var result = await userOperationHandler.Register(newUser.Email, newUser.Password, newUser.FirstName, newUser.LastName, newUser.Birthday);
-            return new AuthenticationResponse() { Token = result } ;
+            return new AuthenticationResponse() { Token = result.Item1, UserId = result.Item2 } ;
         }
 
         [HttpGet("{userId}/bookings/{bookingId}")]

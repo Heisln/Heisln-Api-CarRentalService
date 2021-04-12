@@ -1,5 +1,6 @@
 using Heisln.Api.Models;
 using Heisln.Api.Security;
+using Heisln.Car.Api.Attributes;
 using Heisln.Car.Application;
 using Heisln.Car.Contract;
 using Heisln.Car.Infrastructure;
@@ -21,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Heisln.Api
@@ -49,7 +51,6 @@ namespace Heisln.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln.Car.Api", Version = "v1" });
-                c.DescribeAllEnumsAsStrings();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -73,6 +74,7 @@ namespace Heisln.Api
                             new string[] { }
                     }
                 });
+                c.SchemaFilter<EnumSchemaFilter>();
             });
 
             services.AddAuthentication(options => {
@@ -111,6 +113,10 @@ namespace Heisln.Api
             {
                 options.UseMySQL(Configuration.GetSection("Database")["ConnectionString"]);
             });
+
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -26,7 +26,7 @@ namespace Heisln.Car.Application
             return (token, user.Id);
         }
 
-        public async Task<string> Register(string email, string password, string firstName, string lastName, DateTime birthday)
+        public async Task<(string, Guid)> Register(string email, string password, string firstName, string lastName, DateTime birthday)
         {
             var newUser = User.Create(email, password, firstName, lastName, birthday);
             userRepository.Add(newUser);
@@ -34,7 +34,7 @@ namespace Heisln.Car.Application
 
             var user = await userRepository.GetAsync(email, password);
             var token = JWTTokenGenerator.CreateToken(user);
-            return token;
+            return (token, newUser.Id);
         }
     }
 }
