@@ -49,7 +49,7 @@ namespace Heisln.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln.Car.Api", Version = "v1" });
-
+                c.DescribeAllEnumsAsStrings();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",

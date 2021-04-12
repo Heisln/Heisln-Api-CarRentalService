@@ -52,6 +52,7 @@ namespace Heisln.Car.Application
         public async Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter, string currency)
         {
             var cars = (await carRepository.GetAllAsync()).ToList();
+            cars = cars.Where(c => c.ToString().Contains(filter)).ToList();
             var converted = await currencyConverterHandler.Convert(currency, cars.Select(car => car.Priceperday).ToList());
             for(int i = 0; i < cars.Count(); i++)
             {

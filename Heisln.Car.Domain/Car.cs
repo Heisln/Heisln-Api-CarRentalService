@@ -30,5 +30,11 @@ namespace Heisln.Car.Domain
             Consumption = consumption;
             Priceperday = priceperday;
         }
+
+        public override string ToString()
+        {
+            return Brand + " " + Name;
+        }
+
     }
 }
