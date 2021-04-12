@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heisln.Car.Api", "Heisln.Ca
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{23A0FD1A-A63A-4F5E-A76D-C61E5075C272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heisln.Car.Domain", "Heisln.Car.Domain\Heisln.Car.Domain.csproj", "{044F4E9B-C858-42DD-A8C9-3F92977E6E6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heisln.Car.Domain", "Heisln.Car.Domain\Heisln.Car.Domain.csproj", "{044F4E9B-C858-42DD-A8C9-3F92977E6E6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heisln.Car.Application", "Heisln.Car.Application\Heisln.Car.Application.csproj", "{8174337C-FE74-47B8-90F0-97C992BF8108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heisln.Car.Application", "Heisln.Car.Application\Heisln.Car.Application.csproj", "{8174337C-FE74-47B8-90F0-97C992BF8108}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heisln.Car.Infrastructure", "Heisln.Car.Infrastructure\Heisln.Car.Infrastructure.csproj", "{DCB83C42-21D5-4E3A-B335-51A47AE885E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heisln.Car.Infrastructure", "Heisln.Car.Infrastructure\Heisln.Car.Infrastructure.csproj", "{DCB83C42-21D5-4E3A-B335-51A47AE885E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heisln.Car.Contract", "Heisln.Car.Contract\Heisln.Car.Contract.csproj", "{0A7F2589-0259-4F3B-9477-3885946FED8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heisln.Car.Contract", "Heisln.Car.Contract\Heisln.Car.Contract.csproj", "{0A7F2589-0259-4F3B-9477-3885946FED8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heisln.Car.ApiTest", "Heisln.Car.ApiTest\Heisln.Car.ApiTest.csproj", "{0FB1B514-1D5B-479A-B0F3-BF09A8A509A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{0A7F2589-0259-4F3B-9477-3885946FED8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A7F2589-0259-4F3B-9477-3885946FED8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A7F2589-0259-4F3B-9477-3885946FED8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB1B514-1D5B-479A-B0F3-BF09A8A509A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB1B514-1D5B-479A-B0F3-BF09A8A509A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB1B514-1D5B-479A-B0F3-BF09A8A509A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB1B514-1D5B-479A-B0F3-BF09A8A509A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
