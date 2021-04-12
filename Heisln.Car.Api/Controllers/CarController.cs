@@ -31,32 +31,32 @@ namespace Heisln.Api.Controllers
 
         [HttpPost("book")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<Booking> BookCar([FromBody] Booking booking)
+        public async Task<Booking> BookCar([FromBody] Booking booking, [FromHeader] string authorization)
         {
-            var result = await carOperationHandler.BookCar(booking.CarId.Value, booking.UserId, booking.StartDate, booking.EndDate);
+            var result = await carOperationHandler.BookCar(booking.CarId.Value, booking.UserId, booking.StartDate, booking.EndDate, authorization.Substring(7));
             return result.ToApiModel();
         }
 
         [HttpPost("return")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task ReturnCar(Guid bookingId)
+        public async Task ReturnCar(Guid bookingId, [FromHeader] string authorization)
         {
-            await carOperationHandler.ReturnCar(bookingId);
+            await carOperationHandler.ReturnCar(bookingId, authorization.Substring(7));
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IEnumerable<CarInfo>> GetCars(string query, string currency = "USD")
+        public async Task<IEnumerable<CarInfo>> GetCars(string query, Currency currency = Currency.USD)
         {
-            var result = await carOperationHandler.GetCarsByFilter(query, currency);
+            var result = await carOperationHandler.GetCarsByFilter(query, currency.ToString());
             return result.Select(car => car.ToApiInfoModel());
         }
 
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<Api.Models.Car> GetCar(Guid id, string currency = "USD")
+        public async Task<Api.Models.Car> GetCar(Guid id, Currency currency = Currency.USD)
         {
-            var result = await carOperationHandler.GetCarById(id, currency);
+            var result = await carOperationHandler.GetCarById(id, currency.ToString());
             return result.ToApiModel();
         }
     }

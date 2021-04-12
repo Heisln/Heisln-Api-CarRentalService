@@ -46,17 +46,17 @@ namespace Heisln.Api.Controllers
 
         [HttpGet("{userId}/bookings/{bookingId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<Booking> GetBooking(Guid userId, Guid bookingId, string currency = "USD")
+        public async Task<Booking> GetBooking(Guid userId, Guid bookingId, Currency currency = Currency.USD)
         {
-            var result = await bookingOperationHandler.GetBookingFromUser(userId, bookingId, currency);
+            var result = await bookingOperationHandler.GetBookingFromUser(userId, bookingId, currency.ToString());
             return result.ToApiModel(); 
         }
 
         [HttpGet("{userId}/bookings")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IEnumerable<Booking>> GetBookings(Guid userId, string currency = "USD")
+        public async Task<IEnumerable<Booking>> GetBookings(Guid userId, Currency currency = Currency.USD)
         {
-            var result = await bookingOperationHandler.GetBookingsByUser(userId, currency);
+            var result = await bookingOperationHandler.GetBookingsByUser(userId, currency.ToString());
             return result.Select(booking => booking.ToApiModel());
         }
     }

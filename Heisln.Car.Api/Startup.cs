@@ -36,12 +36,20 @@ namespace Heisln.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln.Car.Api", Version = "v1" });
-
+                c.DescribeAllEnumsAsStrings();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -102,15 +110,6 @@ namespace Heisln.Api
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseMySQL(Configuration.GetSection("Database")["ConnectionString"]);
-            });
-
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    });
             });
         }
 
