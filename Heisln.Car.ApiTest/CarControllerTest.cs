@@ -25,7 +25,9 @@ namespace Heisln.ApiTest
             carController = new CarController(
                 new CarOperationHandler(
                     carRepository: new CarRepository(dbContext), 
-                    bookingRepository: new BookingRepository(dbContext)
+                    bookingRepository: new BookingRepository(dbContext),
+                    userRepository: new UserRepository(dbContext),
+                    currencyConverterHandler: new CurrencyConverterHandler()
                 )
             );
         }
@@ -96,7 +98,7 @@ namespace Heisln.ApiTest
             var car = booking.Car;
 
             // Then
-            car.Id.Should().Be(expectedBooking.CarId, "because I booked this car!");
+            car.Id.Should().Be(expectedBooking.CarId.ToString(), "because I booked this car!");
         }
 
         private Booking CreateBooking(Guid id, DateTime startDate, DateTime endDate)

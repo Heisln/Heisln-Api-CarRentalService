@@ -65,7 +65,7 @@ namespace Heisln.Api.Controllers
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetCars(string query, string? currency)
+        public async virtual Task<IActionResult> GetCars(string query, string currency = "USD")
         {
             var result = await carOperationHandler.GetCarsByFilter(query, currency);
             return new ObjectResult(result.Select(car => car.ToApiInfoModel()));
@@ -79,7 +79,7 @@ namespace Heisln.Api.Controllers
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetCar(Guid id, string? currency)
+        public async virtual Task<IActionResult> GetCar(Guid id, string currency = "USD")
         {
             var result = await carOperationHandler.GetCarById(id, currency);
             return new ObjectResult(result.ToApiModel());

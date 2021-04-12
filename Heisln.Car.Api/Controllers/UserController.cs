@@ -67,7 +67,7 @@ namespace Heisln.Api.Controllers
         [HttpGet("{userId}/bookings/{bookingId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetBooking(Guid userId, Guid bookingId, string? currency)
+        public async virtual Task<IActionResult> GetBooking(Guid userId, Guid bookingId, string currency = "USD")
         {
             var result = await bookingOperationHandler.GetBookingFromUser(userId, bookingId, currency);
             return new ObjectResult(result.ToApiModel()); 
@@ -76,7 +76,7 @@ namespace Heisln.Api.Controllers
         [HttpGet("{userId}/bookings")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetBookings(Guid userId, string? currency)
+        public async virtual Task<IActionResult> GetBookings(Guid userId, string currency = "USD")
         {
             var result = await bookingOperationHandler.GetBookingsByUser(userId, currency);
             return new ObjectResult(result.Select(booking => booking.ToApiModel()));

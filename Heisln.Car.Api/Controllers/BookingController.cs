@@ -28,7 +28,7 @@ namespace Heisln.Car.Api.Controllers
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        public async virtual Task<IActionResult> GetBooking(Guid id, string? currency)
+        public async virtual Task<IActionResult> GetBooking(Guid id, string currency = "USD")
         {
             var result = await bookingOperationHandler.GetBookingById(id, currency);
             return new ObjectResult(result);

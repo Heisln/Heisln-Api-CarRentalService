@@ -21,7 +21,8 @@ namespace Heisln.ApiTest
             userController = new UserController(
                 new UserOperationHandler(
                     userRepository: new UserRepository(databaseContext)
-                )
+                ),
+                new BookingOperationHandler(bookingRepository: new BookingRepository(databaseContext), userRepository: new UserRepository(databaseContext))
             );
         }
 
