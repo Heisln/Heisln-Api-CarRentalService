@@ -19,7 +19,7 @@ namespace Heisln.Car.Domain
 
         public readonly double Consumption;
 
-        public double Priceperday { get; private set; }
+        public double Priceperday { get; set; }
 
         public Car(Guid id, string brand, string name, int horsepower, double consumption, double priceperday)
         {

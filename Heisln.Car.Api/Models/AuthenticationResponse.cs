@@ -21,6 +21,14 @@ namespace Heisln.Api.Models
         public string Token { get; set; }
 
         /// <summary>
+        /// Gets or Sets Token
+        /// </summary>
+        [DataMember(Name = "UserId")]
+        public Guid UserId { get; set; } 
+
+
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

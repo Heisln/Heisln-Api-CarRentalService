@@ -32,12 +32,15 @@ namespace Heisln.Car.Infrastructure
 
         public async Task<IEnumerable<Booking>> GetBookingsByUser(Guid userId)
         {
-            return await dbContext.Bookings.Where(booking => booking.User.Id == userId).ToListAsync();
+            return await dbContext.Bookings.Where(booking => booking.User.Id == userId)
+                .Include(booking => booking.User)
+                .Include(booking => booking.Car)
+                .ToListAsync();
         }
 
         public void Remove(Booking entity)
         {
-            throw new NotImplementedException();
+            dbContext.Bookings.Remove(entity);
         }
 
         public void Remove(Guid id)

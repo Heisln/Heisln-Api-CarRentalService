@@ -13,7 +13,7 @@ namespace Heisln.Car.Application
         readonly ICarRepository carRepository;
         readonly IBookingRepository bookingRepository;
         readonly IUserRepository userRepository;
-        private readonly ICurrencyConverterHandler _currencyConverterHandler;
+        readonly ICurrencyConverterHandler currencyConverterHandler;
 
 
         public CarOperationHandler(ICarRepository carRepository, IBookingRepository bookingRepository, IUserRepository userRepository, ICurrencyConverterHandler currencyConverterHandler)
@@ -21,16 +21,11 @@ namespace Heisln.Car.Application
             this.carRepository = carRepository;
             this.bookingRepository = bookingRepository;
             this.userRepository = userRepository;
-            _currencyConverterHandler = currencyConverterHandler;
+            this.currencyConverterHandler = currencyConverterHandler;
         }
 
         public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
         {
-            //todo test currencyconverter
-            var sourceCurrency = "USD";
-            var targetCurrency = "JPY";
-            var list = new List<int> { 1, 2, 3 };
-            var converted = _currencyConverterHandler.Convert(sourceCurrency, targetCurrency, list);
             var car = await carRepository.GetAsync(carId);
             var user = await userRepository.GetAsync(userId);
             var booking = Booking.Create(car, user, startDate, endDate);
@@ -42,13 +37,27 @@ namespace Heisln.Car.Application
         public async Task<Domain.Car> GetCarById(Guid carId, string currency)
         {
             var car = await carRepository.GetAsync(carId);
+            var converted = await currencyConverterHandler.Convert(currency, car.Priceperday);
+            car.Priceperday = converted;
             return car;
         }
 
         public async Task<IEnumerable<Domain.Car>> GetCarsByFilter(string filter, string currency)
         {
-            var cars = await carRepository.GetAllAsync();
+            var cars = (await carRepository.GetAllAsync()).ToList();
+            var converted = await currencyConverterHandler.Convert(currency, cars.Select(car => car.Priceperday).ToList());
+            for(int i = 0; i < cars.Count(); i++)
+            {
+                cars[i].Priceperday = converted[i];
+            }
             return cars;
+        }
+
+        public async Task ReturnCar(Guid bookingId)
+        {
+            var booking = await bookingRepository.GetAsync(bookingId);
+            bookingRepository.Remove(booking);
+            await bookingRepository.SaveAsync();
         }
     }
 }

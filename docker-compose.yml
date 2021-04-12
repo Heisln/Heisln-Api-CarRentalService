@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
+    networks:
+      - heisln-net
   db:
     image: mysql:8.0.23
     ports:
@@ -16,3 +18,16 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: Heisln.Car.Db
     restart: always
+    networks:
+      - heisln-net
+  heisln-currency-converter:
+    ports:
+      - 9000:80
+    image: 'deitsch/heisln-currency-converter'
+    container_name: 'heisln-currency-converter'
+    networks:
+      - heisln-net
+  
+networks:
+  heisln-net:
+    external: true

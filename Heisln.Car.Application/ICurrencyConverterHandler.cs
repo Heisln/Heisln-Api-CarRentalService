@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Heisln.Car.Application
 {
     public interface ICurrencyConverterHandler
     {
-        List<int> Convert(string sourceCurrency, string targetCurrency, List<int> values);
+        Task<List<double>> Convert(string targetCurrency, List<double> values, string sourceCurrency = "USD");
+
+        Task<double> Convert(string targetCurrency, double value, string sourceCurrency = "USD");
     }
 }

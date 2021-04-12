@@ -26,9 +26,10 @@ namespace Heisln.Car.Infrastructure
             return user;
         }
 
-        public Task<User> GetAsync(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await dbContext.Users.SingleAsync(user => user.Id == id);
+            return user;
         }
 
         public Task<IEnumerable<User>> GetAllAsync()

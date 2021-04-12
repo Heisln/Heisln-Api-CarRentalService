@@ -17,13 +17,13 @@ namespace Heisln.Car.Application
             this.userRepository = userRepository;
         }
 
-        public async Task<string> Login(string email, string password)
+        public async Task<(string, Guid)> Login(string email, string password)
         {
             var user = await userRepository.GetAsync(email, password);
 
             var token = JWTTokenGenerator.CreateToken(user);
 
-            return token;
+            return (token, user.Id);
         }
 
         public async Task<string> Register(string email, string password, string firstName, string lastName, DateTime birthday)

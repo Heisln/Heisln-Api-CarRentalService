@@ -28,7 +28,6 @@ namespace Heisln.Car.Api.Controllers
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Booking), description: "got car details")]
         public async virtual Task<IActionResult> GetBooking(Guid id, string? currency)
         {
             var result = await bookingOperationHandler.GetBookingById(id, currency);

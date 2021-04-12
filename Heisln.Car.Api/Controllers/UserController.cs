@@ -1,6 +1,7 @@
 ﻿using Heisln.Api.Attributes;
 using Heisln.Api.Models;
 using Heisln.Api.Security;
+using Heisln.Car.Api.Models;
 using Heisln.Car.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +45,7 @@ namespace Heisln.Api.Controllers
         public async virtual Task<IActionResult> UserLogin(AuthenticationRequest request)
         {
             var result = await userOperationHandler.Login(request.Email, request.Password);
-            return new ObjectResult(new AuthenticationResponse { Token = result });
+            return new ObjectResult(new AuthenticationResponse { Token = result.Item1, UserId = result.Item2 });
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace Heisln.Api.Controllers
         public async virtual Task<IActionResult> GetBooking(Guid userId, Guid bookingId, string? currency)
         {
             var result = await bookingOperationHandler.GetBookingFromUser(userId, bookingId, currency);
-            return new ObjectResult(result); 
+            return new ObjectResult(result.ToApiModel()); 
         }
 
         [HttpGet("{userId}/bookings")]
@@ -78,7 +79,7 @@ namespace Heisln.Api.Controllers
         public async virtual Task<IActionResult> GetBookings(Guid userId, string? currency)
         {
             var result = await bookingOperationHandler.GetBookingsByUser(userId, currency);
-            return new ObjectResult(result);
+            return new ObjectResult(result.Select(booking => booking.ToApiModel()));
         }
     }
 }

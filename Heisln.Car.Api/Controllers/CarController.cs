@@ -41,10 +41,20 @@ namespace Heisln.Api.Controllers
         [ValidateModelState]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
         [SwaggerResponse(statusCode: 422, type: typeof(ErrorObject), description: "invalid booking")]
-        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking, [FromHeader]Guid userId)
+        public async virtual Task<IActionResult> BookCar([FromBody] Booking booking)
         {
-            var result = await carOperationHandler.BookCar(booking.CarId, userId, booking.StartDate, booking.EndDate);
+            var result = await carOperationHandler.BookCar(booking.CarId.Value, booking.UserId, booking.StartDate, booking.EndDate);
             return new ObjectResult(result);
+        }
+
+        [HttpPost("return")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ValidateModelState]
+        [SwaggerResponse(statusCode: 401, type: typeof(ErrorObject), description: "unauthorized")]
+        public async virtual Task<IActionResult> ReturnCar(Guid bookingId)
+        {
+            await carOperationHandler.ReturnCar(bookingId);
+            return Ok();
         }
 
         /// <summary>
@@ -69,7 +79,6 @@ namespace Heisln.Api.Controllers
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Car.Domain.Car), description: "got car details")]
         public async virtual Task<IActionResult> GetCar(Guid id, string? currency)
         {
             var result = await carOperationHandler.GetCarById(id, currency);
