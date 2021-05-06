@@ -35,7 +35,7 @@ namespace Heisln.ApiTest
                 new Car.Domain.Car(Guid.NewGuid(), "BWM", "43e", 77, 2.0, 1.0),
                 new Car.Domain.Car(Guid.NewGuid(), "BWM", "3er", 100, 12.0, 23.0),
                 new Car.Domain.Car(Guid.NewGuid(), "Audi", "A5", 120, 2.0, 11.0),
-                new Car.Domain.Car(Guid.NewGuid(), "BWM", "A4", 40, 12.0, 32.0)
+                new Car.Domain.Car(Guid.NewGuid(), "Audi", "A4", 40, 12.0, 32.0)
             };
 
             Users = new Car.Domain.User[]
@@ -55,26 +55,12 @@ namespace Heisln.ApiTest
         }
 
         void SeedDatabase()
-        {
-            // Fill with cars
-            DatabaseContext.Cars.Add(Cars[0]);
-            DatabaseContext.Cars.Add(Cars[1]);
-            DatabaseContext.Cars.Add(Cars[2]);
-            DatabaseContext.Cars.Add(Cars[3]);
-
-            // Fill with user
-            DatabaseContext.Users.Add(Users[0]);
-            DatabaseContext.Users.Add(Users[1]);
-
-            // Fill bookings
-            DatabaseContext.Bookings.Add(Bookings[0]);
-            DatabaseContext.Bookings.Add(Bookings[1]);
-            DatabaseContext.Bookings.Add(Bookings[2]);
-
+        { 
+            foreach (var car in Cars) DatabaseContext.Cars.Add(car);
+            foreach (var user in Users) DatabaseContext.Users.Add(user);
+            foreach (var booking in Bookings) DatabaseContext.Bookings.Add(booking);
             DatabaseContext.SaveChanges();
         }
-
-        
 
         public void Dispose()
         {
