@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heisln.Car.Application
+namespace Heisln.Car.Contract
 {
-    public interface IUserOperationHandler
+    public interface IUserListener
     {
-        Task UpdateUser(User updatedUser);
+        Task<User> ListenUserUpdates();
     }
 }
