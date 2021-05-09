@@ -44,21 +44,24 @@ namespace Heisln.Car.Infrastructure
             };
         }
 
-        public async Task<string> Call(string message)
+        public Task<string> Call(string message)
         {
-            var messageBytes = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(
-                exchange: "",
-                routingKey: "rpc_queue",
-                basicProperties: props,
-                body: messageBytes);
+            return Task.Run(() =>
+            {
+                var messageBytes = Encoding.UTF8.GetBytes(message);
+                channel.BasicPublish(
+                    exchange: "",
+                    routingKey: "rpc_queue",
+                    basicProperties: props,
+                    body: messageBytes);
 
-            channel.BasicConsume(
-                consumer: consumer,
-                queue: replyQueueName,
-                autoAck: true);
+                channel.BasicConsume(
+                    consumer: consumer,
+                    queue: replyQueueName,
+                    autoAck: true);
 
-            return respQueue.Take();
+                return respQueue.Take();
+            });
         }
 
         public void Close()
