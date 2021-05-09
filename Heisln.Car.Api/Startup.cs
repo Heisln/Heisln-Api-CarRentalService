@@ -110,6 +110,7 @@ namespace Heisln.Api
             services.AddScoped<IBookingOperationHandler, BookingOperationHandler>();
             services.AddScoped<IUserOperationHandler, UserOperationHandler>();
             services.AddScoped<ICurrencyConverterHandler, CurrencyConverterHandler>();
+            services.AddScoped<IRpcClient, RpcClient>();
 
             //Configure Database
             services.AddDbContext<DatabaseContext>(options =>
