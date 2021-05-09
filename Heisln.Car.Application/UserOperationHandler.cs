@@ -27,7 +27,7 @@ namespace Heisln.Car.Application
 
         public async Task<User> GetUser(Guid id)
         {
-            string message = $"GetUserWithId({id})";
+            string message = $"GetUserWithId:{id}";
             var response = await rpcClient.Call(message);
             var user = JsonConvert.DeserializeObject<User>(response);
             return user;
