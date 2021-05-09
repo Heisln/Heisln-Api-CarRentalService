@@ -10,11 +10,11 @@ namespace Heisln.Car.Domain
 
         public readonly Car Car;
 
-        public readonly User User;
-
         public readonly DateTime StartDate;
 
         public readonly DateTime EndDate;
+
+        public User User { get; private set; }
 
         private Booking(Guid id, Car car, User user, DateTime startDate, DateTime endDate)
         {
@@ -32,5 +32,14 @@ namespace Heisln.Car.Domain
         }
 
         public Booking() { }
+
+        public void UpdateUser(User user)
+        {
+            if (User.Id != user.Id)
+            {
+                return;
+            }
+            User = user;
+        }
     }
 }

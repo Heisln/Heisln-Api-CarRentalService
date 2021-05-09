@@ -10,5 +10,6 @@ namespace Heisln.Car.Application
     public interface IUserOperationHandler
     {
         Task UpdateUser(User updatedUser);
+        Task<User> GetUser(Guid id);
     }
 }
