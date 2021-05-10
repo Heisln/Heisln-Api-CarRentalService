@@ -1,5 +1,6 @@
 using Heisln.Api.Models;
 using Heisln.Api.Security;
+using Heisln.Car.Api.Attributes;
 using Heisln.Car.Application;
 using Heisln.Car.Application.BackgroundServices;
 using Heisln.Car.Application.Configurations;
@@ -23,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Heisln.Api
@@ -50,8 +52,7 @@ namespace Heisln.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln.Car.Api", Version = "v1" });
-                c.DescribeAllEnumsAsStrings();
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Heisln Carrental Service", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -75,6 +76,7 @@ namespace Heisln.Api
                             new string[] { }
                     }
                 });
+                c.SchemaFilter<EnumSchemaFilter>();
             });
 
             var serviceClientSettingsConfig = Configuration.GetSection("RabbitMq");
@@ -122,15 +124,18 @@ namespace Heisln.Api
             {
                 services.AddHostedService<UserListener>();
             }
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (true)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Heisln.Car.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Heisln Carrental Service v1"));
             }
 
             app.UseHttpsRedirection();
