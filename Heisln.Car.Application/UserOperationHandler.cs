@@ -16,6 +16,7 @@ namespace Heisln.Car.Application
 
         public UserOperationHandler(IBookingRepository bookingRepository, IRpcClient rpcClient)
         {
+            this.rpcClient = rpcClient;
             this.bookingRepository = bookingRepository;
         }
         public async Task UpdateUser(User updatedUser)

@@ -165,31 +165,34 @@ namespace Heisln.Api
 
                     try
                     {
-                        //var dbContext = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                        //dbContext.Database.Migrate();
+                        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                        dbContext.Database.Migrate();
 
-                        //dbContext.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 0;");
-                        //dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE Cars");
-                        //dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE Bookings");
-                        //dbContext.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 1;");
+                        dbContext.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 0;");
+                        dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE Cars");
+                        dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE Bookings");
+                        dbContext.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 1;");
 
 
-                        //var carA = new Car.Domain.Car(Guid.NewGuid(), "BWM", "43e", 77, 2.0, 1.0);
-                        //var carB = new Car.Domain.Car(Guid.NewGuid(), "BWM", "X7", 77, 2.0, 1.0);
+                        var carA = new Car.Domain.Car(Guid.NewGuid(), "BWM", "43e", 77, 2.0, 1.0);
+                        var carB = new Car.Domain.Car(Guid.NewGuid(), "BWM", "X7", 77, 2.0, 1.0);
 
-                        //var carRepository = serviceScope.ServiceProvider.GetRequiredService<ICarRepository>();
-                        //carRepository.Add(carA);
-                        //carRepository.Add(carB);
-                        //carRepository.SaveAsync().Wait();
+                        var carRepository = serviceScope.ServiceProvider.GetRequiredService<ICarRepository>();
+                        carRepository.Add(carA);
+                        carRepository.Add(carB);
+                        carRepository.SaveAsync().Wait();
 
-                        //var bookingA = Car.Domain.Booking.Create(carA, userA, DateTime.Now, DateTime.Now);
-                        //var bookingB = Car.Domain.Booking.Create(carB, userA, DateTime.Now, DateTime.Now);
+                        var userA = new Car.Domain.User(Guid.NewGuid(), "mail@mail.test", "pwd", "Max", "Mustermann", DateTime.Today);
+                        var userB = new Car.Domain.User(Guid.NewGuid(), "mail1@mail.test", "pwd", "Sabine", "Sicher", DateTime.Today);
 
-                        //var bookingRepository = serviceScope.ServiceProvider.GetRequiredService<IBookingRepository>();
-                        //bookingRepository.Add(bookingA);
-                        //bookingRepository.Add(bookingB);
+                        var bookingA = Car.Domain.Booking.Create(carA, userA, DateTime.Now, DateTime.Now);
+                        var bookingB = Car.Domain.Booking.Create(carB, userA, DateTime.Now, DateTime.Now);
 
-                        //bookingRepository.SaveAsync().Wait();
+                        var bookingRepository = serviceScope.ServiceProvider.GetRequiredService<IBookingRepository>();
+                        bookingRepository.Add(bookingA);
+                        bookingRepository.Add(bookingB);
+
+                        bookingRepository.SaveAsync().Wait();
                     }
                     catch (Exception e)
                     {

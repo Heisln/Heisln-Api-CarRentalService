@@ -21,7 +21,7 @@ namespace Heisln.Car.Infrastructure
 
         public RpcClient()
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = "rabbitmq", UserName="test1", Password="test1" };
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();

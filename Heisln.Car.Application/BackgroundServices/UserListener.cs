@@ -55,21 +55,22 @@ namespace Heisln.Car.Application.BackgroundServices
             stoppingToken.ThrowIfCancellationRequested();
 
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (ch, ea) =>
-            {
-                var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var updatedUser = JsonConvert.DeserializeObject<User>(content);
 
-                HandleMessage(updatedUser);
+                consumer.Received += (ch, ea) =>
+                {
+                    var content = Encoding.UTF8.GetString(ea.Body.ToArray());
+                    var updatedUser = JsonConvert.DeserializeObject<User>(content);
 
-                channel.BasicAck(ea.DeliveryTag, false);
-            };
-            consumer.Shutdown += OnConsumerShutdown;
-            consumer.Registered += OnConsumerRegistered;
-            consumer.Unregistered += OnConsumerUnregistered;
-            consumer.ConsumerCancelled += OnConsumerCancelled;
+                    HandleMessage(updatedUser);
 
-            channel.BasicConsume(queueName, false, consumer);
+                    channel.BasicAck(ea.DeliveryTag, false);
+                };
+                consumer.Shutdown += OnConsumerShutdown;
+                consumer.Registered += OnConsumerRegistered;
+                consumer.Unregistered += OnConsumerUnregistered;
+                consumer.ConsumerCancelled += OnConsumerCancelled;
+
+                channel.BasicConsume(queueName, false, consumer);
 
             return Task.CompletedTask;
         }
