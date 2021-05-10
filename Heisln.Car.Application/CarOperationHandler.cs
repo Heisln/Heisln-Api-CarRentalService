@@ -68,8 +68,6 @@ namespace Heisln.Car.Application
             var booking = await bookingRepository.GetAsync(bookingId);
 
             var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
-            if (booking.User.Email != claim)
-                throw new InvalidCredentialException("Not authorized!");
 
             bookingRepository.Remove(booking);
             await bookingRepository.SaveAsync();

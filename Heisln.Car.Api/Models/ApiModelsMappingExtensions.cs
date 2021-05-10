@@ -33,7 +33,7 @@ namespace Heisln.Car.Api.Models
             {
                 Id = booking.Id,
                 Car = booking.Car.ToApiInfoModel(),
-                UserId = booking.User.Id,
+                UserId = booking.User,
                 StartDate = booking.StartDate,
                 EndDate = booking.EndDate
             };
