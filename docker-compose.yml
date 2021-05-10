@@ -1,15 +1,21 @@
 version: '3.4'
 
 services:
-  heisln.car.api:
-    image: ${DOCKER_REGISTRY-}heislncarapi
+  heisln.carrental.service:
+    image: ${DOCKER_REGISTRY-}heisln-carrentalservice
+    container_name: heisln-carrentalservice
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
+    ports:
+      - "9002:80"
+    depends_on:
+      - db
     networks:
       - heisln-net
   db:
     image: mysql:8.0.23
+    container_name: heisln-mysql
     ports:
         - 3306:3306
     environment:
@@ -18,13 +24,6 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: Heisln.Car.Db
     restart: always
-    networks:
-      - heisln-net
-  heisln-currency-converter:
-    ports:
-      - 9000:80
-    image: 'deitsch/heisln-currency-converter'
-    container_name: 'heisln-currency-converter'
     networks:
       - heisln-net
   
