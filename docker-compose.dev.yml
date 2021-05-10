@@ -3,6 +3,7 @@ version: '3.4'
 services:
   heisln.carrental.service:
     image: ${DOCKER_REGISTRY-}heisln-carrentalservice
+    container_name: heisln-carrentalservice
     build:
       context: .
       dockerfile: Heisln.Car.Api/Dockerfile
