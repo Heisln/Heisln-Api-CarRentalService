@@ -18,7 +18,8 @@ namespace Heisln.ApiTest
 {
     public class CarControllerTest : IClassFixture<DbContextFixture>
     {
-        double convertFactor = 1.5;
+        readonly double convertFactor = 1.5;
+        readonly string bearer = "bearer ";
         CarController carController;
         UserController userController;
 
@@ -111,7 +112,7 @@ namespace Heisln.ApiTest
             var expectedBooking = CreateBooking(expectedCar.Id, authenticationResponse.UserId, startDate, endDate);
 
             // When
-            var booking = await carController.BookCar(expectedBooking);
+            var booking = await carController.BookCar(expectedBooking, bearer + authenticationResponse.Token);
             var car = booking.Car;
 
             // Then
@@ -139,8 +140,16 @@ namespace Heisln.ApiTest
         [MemberData(nameof(invalidBookingInformation))]
         public async Task BookCar_GivenInvalidBooking_WhenBookSpecificCar_ThenItShouldFail(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
         {
+            var authenticationResponse = await userController.UserLogin(
+                new AuthenticationRequest()
+                {
+                    Email = "gustav.nimmersatt@yahoo.at",
+                    Password = "asdfg123"
+                }
+            );
+
             var booking = CreateBooking(carId, userId, startDate, endDate);
-            await Assert.ThrowsAnyAsync<Exception>(() => carController.BookCar(booking));
+            await Assert.ThrowsAnyAsync<Exception>(() => carController.BookCar(booking, bearer + authenticationResponse.Token));
         }
     }
 }

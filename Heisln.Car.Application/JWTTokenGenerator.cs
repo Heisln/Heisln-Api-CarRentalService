@@ -16,7 +16,7 @@ namespace Heisln.Car.Application
         private const double EXPIRE_HOURS = 1.0;
         public static string CreateToken(User user)
         {
-            var key = Encoding.ASCII.GetBytes(IUserRepository.Secret);
+            var key = Encoding.ASCII.GetBytes(IBookingRepository.Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
             var descriptor = new SecurityTokenDescriptor
             {

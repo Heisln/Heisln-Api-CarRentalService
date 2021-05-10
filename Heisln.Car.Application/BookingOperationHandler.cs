@@ -11,12 +11,10 @@ namespace Heisln.Car.Application
     public class BookingOperationHandler : IBookingOperationHandler
     {
         readonly IBookingRepository bookingRepository;
-        readonly IUserRepository userRepository;
 
-        public BookingOperationHandler(IBookingRepository bookingRepository, IUserRepository userRepository)
+        public BookingOperationHandler(IBookingRepository bookingRepository)
         {
             this.bookingRepository = bookingRepository;
-            this.userRepository = userRepository;
         }
 
         public async Task<Booking> GetBookingById(Guid bookingId, string currency)

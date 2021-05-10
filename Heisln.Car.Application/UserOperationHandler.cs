@@ -1,5 +1,6 @@
 ﻿using Heisln.Car.Contract;
 using Heisln.Car.Domain;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +11,26 @@ namespace Heisln.Car.Application
 {
     public class UserOperationHandler : IUserOperationHandler
     {
-        readonly IUserRepository userRepository;
+        readonly IRpcClient rpcClient;
+        readonly IBookingRepository bookingRepository;
 
-        public UserOperationHandler(IUserRepository userRepository)
+        public UserOperationHandler(IBookingRepository bookingRepository, IRpcClient rpcClient)
         {
-            this.userRepository = userRepository;
+            this.bookingRepository = bookingRepository;
+        }
+        public async Task UpdateUser(User updatedUser)
+        {
+            var bookings = await bookingRepository.GetBookingsByUser(updatedUser.Id);
+            bookings.ToList().ForEach(booking => booking.UpdateUser(updatedUser));
+            await bookingRepository.SaveAsync();
         }
 
-        public async Task<(string, Guid)> Login(string email, string password)
+        public async Task<User> GetUser(Guid id)
         {
-            var user = await userRepository.GetAsync(email, password);
-
-            var token = JWTTokenGenerator.CreateToken(user);
-
-            return (token, user.Id);
-        }
-
-        public async Task<(string, Guid)> Register(string email, string password, string firstName, string lastName, DateTime birthday)
-        {
-            var newUser = User.Create(email, password, firstName, lastName, birthday);
-            userRepository.Add(newUser);
-            await userRepository.SaveAsync();
-
-            var user = await userRepository.GetAsync(email, password);
-            var token = JWTTokenGenerator.CreateToken(user);
-            return (token, newUser.Id);
+            string message = $"GetUserWithId:{id}";
+            var response = await rpcClient.Call(message);
+            var user = JsonConvert.DeserializeObject<User>(response);
+            return user;
         }
     }
 }
