@@ -41,13 +41,6 @@ services:
         - 8001:8080
     networks:
       - heisln-net
-  heisln-currency-converter:
-    ports:
-      - 9000:80
-    image: 'deitsch/heisln-currency-converter'
-    container_name: 'heisln-currency-converter'
-    networks:
-      - heisln-net
   
 networks:
   heisln-net:
