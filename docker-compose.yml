@@ -13,6 +13,7 @@ services:
       - db
     networks:
       - heisln-net
+    restart: on-failure
   db:
     image: mysql:8.0.23
     container_name: heisln-mysql

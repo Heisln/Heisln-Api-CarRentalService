@@ -163,8 +163,6 @@ namespace Heisln.Api
                 {
                     var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
 
-                    try
-                    {
                         var dbContext = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
                         dbContext.Database.Migrate();
 
@@ -193,11 +191,7 @@ namespace Heisln.Api
                         bookingRepository.Add(bookingB);
 
                         bookingRepository.SaveAsync().Wait();
-                    }
-                    catch (Exception e)
-                    {
-                        logger.LogWarning(e, "Could not create test data!");
-                    }
+                    
                 }
             }
             #endregion
