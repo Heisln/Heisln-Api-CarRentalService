@@ -28,11 +28,9 @@ namespace Heisln.Car.Application
         public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate, string bearer)
         {
             var car = await carRepository.GetAsync(carId);
-            var user = await userOperationHandler.GetUser(userId); //TODO: Get User here?
+            User user = new User(Guid.NewGuid(), "email", "password", "firstName", "lastName", DateTime.Now); //TODO: Get User here?
 
             var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
-            if (user.Email != claim)
-                throw new InvalidCredentialException("Not authorized!");
 
             var booking = Booking.Create(car, user, startDate, endDate);
             bookingRepository.Add(booking);
