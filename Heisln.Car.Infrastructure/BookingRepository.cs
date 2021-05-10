@@ -28,7 +28,6 @@ namespace Heisln.Car.Infrastructure
         public async Task<Booking> GetAsync(Guid id)
         {
             return await dbContext.Bookings
-                .Include(booking => booking.User)
                 .Include(booking => booking.Car)
                 .SingleAsync(booking => booking.Id == id);
         }
@@ -36,7 +35,6 @@ namespace Heisln.Car.Infrastructure
         public async Task<IEnumerable<Booking>> GetBookingsByUser(Guid userId)
         {
             return await dbContext.Bookings.Where(booking => booking.User == userId)
-                .Include(booking => booking.User)
                 .Include(booking => booking.Car)
                 .ToListAsync();
         }
