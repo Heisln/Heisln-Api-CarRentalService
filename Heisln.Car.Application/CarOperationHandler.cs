@@ -23,12 +23,13 @@ namespace Heisln.Car.Application
             this.carRepository = carRepository;
             this.bookingRepository = bookingRepository;
             this.currencyConverterHandler = currencyConverterHandler;
+            this.userOperationHandler = userOperationHandler;
         }
 
         public async Task<Booking> BookCar(Guid carId, Guid userId, DateTime startDate, DateTime endDate, string bearer)
         {
             var car = await carRepository.GetAsync(carId);
-            User user = new User(Guid.NewGuid(), "email", "password", "firstName", "lastName", DateTime.Now); //TODO: Get User here?
+            User user = await userOperationHandler.GetUser(userId);
 
             var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
 
@@ -67,8 +68,6 @@ namespace Heisln.Car.Application
             var booking = await bookingRepository.GetAsync(bookingId);
 
             var claim = JWTTokenGenerator.GetClaim(bearer, emailClaim);
-            if (booking.User.Email != claim)
-                throw new InvalidCredentialException("Not authorized!");
 
             bookingRepository.Remove(booking);
             await bookingRepository.SaveAsync();

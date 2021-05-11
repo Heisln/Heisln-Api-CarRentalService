@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Heisln.Car.Infrastructure.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,11 +28,11 @@ namespace Heisln.Car.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true)
+                    FirstName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,6 +44,7 @@ namespace Heisln.Car.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
+                    User = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
                     CarId = table.Column<byte[]>(type: "varbinary(16)", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime", nullable: false)

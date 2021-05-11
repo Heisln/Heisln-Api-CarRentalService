@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Heisln.Car.Domain\Heisln.Car.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

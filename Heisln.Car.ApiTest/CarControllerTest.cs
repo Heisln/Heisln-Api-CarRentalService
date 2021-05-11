@@ -21,29 +21,10 @@ namespace Heisln.ApiTest
         readonly double convertFactor = 1.5;
         readonly string bearer = "bearer ";
         CarController carController;
-        UserController userController;
 
         public CarControllerTest(DbContextFixture dbContextFixture)
         {
             var databaseContext = dbContextFixture.DatabaseContext;
-            carController = new CarController(
-                new CarOperationHandler(
-                    carRepository: new CarRepository(databaseContext), 
-                    bookingRepository: new BookingRepository(databaseContext),
-                    userRepository: new UserRepository(databaseContext),
-                    currencyConverterHandler: new MockCurrencyConverterHandler(convertFactor)
-                )
-            );
-
-            userController = new UserController(
-                new UserOperationHandler(
-                    userRepository: new UserRepository(databaseContext)
-                ),
-                new BookingOperationHandler(
-                    bookingRepository: new BookingRepository(databaseContext), 
-                    userRepository: new UserRepository(databaseContext)
-                )
-            );
         }
 
         [Fact]
@@ -87,37 +68,14 @@ namespace Heisln.ApiTest
 
         public static readonly IEnumerable<object[]> dateTimes = new List<object[]>
         {
-            new object[] 
+            new object[]
             {
-                "gustav.nimmersatt@yahoo.at", 
+                "gustav.nimmersatt@yahoo.at",
                 "asdfg123",
                 new DateTime(2021, 1, 1),
                 new DateTime(2021, 1, 12)
             }
         };
-
-        [Theory]
-        [MemberData(nameof(dateTimes))]
-        public async Task BookCar_GivenANewBooking_WhenBookSpecificCar_ThenSpecificCarShouldBeBooked(string email, string password, DateTime startDate, DateTime endDate)
-        {
-            // Given
-            var resultAllCars = await carController.GetCars("");
-            var expectedCar = resultAllCars.ToList().First();
-            var authenticationResponse = await userController.UserLogin(
-                new AuthenticationRequest() { 
-                    Email = email, 
-                    Password = password 
-                }
-            );
-            var expectedBooking = CreateBooking(expectedCar.Id, authenticationResponse.UserId, startDate, endDate);
-
-            // When
-            var booking = await carController.BookCar(expectedBooking, bearer + authenticationResponse.Token);
-            var car = booking.Car;
-
-            // Then
-            car.Id.Should().Be(expectedBooking.CarId.ToString(), "because I booked this car!");
-        }
 
         private Booking CreateBooking(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
         {
@@ -135,21 +93,5 @@ namespace Heisln.ApiTest
             new object[] { Guid.Empty, Guid.NewGuid(), new DateTime(2001, 1, 1), new DateTime(2001, 1, 12) },
             new object[] { Guid.NewGuid(), Guid.NewGuid(), new DateTime(2012, 1, 1), new DateTime(2020, 1, 12) }
         };
-
-        [Theory]
-        [MemberData(nameof(invalidBookingInformation))]
-        public async Task BookCar_GivenInvalidBooking_WhenBookSpecificCar_ThenItShouldFail(Guid carId, Guid userId, DateTime startDate, DateTime endDate)
-        {
-            var authenticationResponse = await userController.UserLogin(
-                new AuthenticationRequest()
-                {
-                    Email = "gustav.nimmersatt@yahoo.at",
-                    Password = "asdfg123"
-                }
-            );
-
-            var booking = CreateBooking(carId, userId, startDate, endDate);
-            await Assert.ThrowsAnyAsync<Exception>(() => carController.BookCar(booking, bearer + authenticationResponse.Token));
-        }
     }
 }

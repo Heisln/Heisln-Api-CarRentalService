@@ -13,6 +13,7 @@ services:
       - db
     networks:
       - heisln-net
+    restart: on-failure
   db:
     image: mysql:8.0.23
     container_name: heisln-mysql
@@ -24,6 +25,21 @@ services:
         MYSQL_PASSWORD: pass@word1234
         MYSQL_DATABASE: Heisln.Car.Db
     restart: always
+    networks:
+      - heisln-net
+  adminer:
+    image: adminer
+    container_name: heisln-adminer
+    depends_on:
+        - db
+    environment:
+        ADMINER_DEFAULT_DB_DRIVER: mysql
+        ADMINER_DEFAULT_DB_HOST: db
+        ADMINER_DEFAULT_DB_NAME: Heisln.Car.Db
+        ADMINER_DESIGN: flat
+        ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+        - 8001:8080
     networks:
       - heisln-net
   

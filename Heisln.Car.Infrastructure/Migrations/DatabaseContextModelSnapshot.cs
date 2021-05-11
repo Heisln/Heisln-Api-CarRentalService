@@ -32,14 +32,13 @@ namespace Heisln.Car.Infrastructure.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime");
 
-                    b.Property<byte[]>("UserId")
+                    b.Property<byte[]>("User")
+                        .IsRequired()
                         .HasColumnType("varbinary(16)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
                 });
@@ -102,13 +101,7 @@ namespace Heisln.Car.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("CarId");
 
-                    b.HasOne("Heisln.Car.Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Car");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
